@@ -1,0 +1,8 @@
+.orderColumn{
+  display:grid;
+  grid-template-columns: 60% 40%;
+  margin: auto;
+  width: 95%;
+  height: 200px;
+  background-color: aquamarine;
+}
