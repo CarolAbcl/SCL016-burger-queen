@@ -1,5 +1,5 @@
 import './App.css';
-import Orders from './components/orders/orders';
+import Orders from './components/orders/Orders';
 
 function App() {
   return (
