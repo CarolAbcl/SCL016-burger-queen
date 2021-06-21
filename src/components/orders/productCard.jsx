@@ -1,14 +1,13 @@
 import React from 'react'
-import coffeMilk from './coffeMilk.jpg'
 import '../orders/orders.css'
 
-export default function ProductCard() {
+export default function ProductCard({title, price, image}) {
   return (
     <>
       <div className='contentCard'>
-        <img src={coffeMilk} alt='coffeMilk'></img>
-        <p className='productName'>Café con leche</p>
-        <p className='price'>$1.000</p>
+        <img src={image} alt='productImage'></img>
+        <p className='productName'>{title}</p>
+        <p className='price'>{price}</p>
         <button>+</button>
       </div>
     </>

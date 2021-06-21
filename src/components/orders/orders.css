@@ -28,7 +28,8 @@ h2{
 
 .wrapCards{
   display: flex;
-  justify-content: space-around;
+  justify-content: left;
+  flex-flow: row wrap;
 }
 
 .contentCard{
@@ -39,6 +40,8 @@ h2{
   border-radius: 10%;
   border: solid 1px #B9B3B3;
   box-shadow: 2px 2px 2px #B9B3B3;
+  margin-right: 20px;
+  margin-top: 20px;
 }
 
 .contentCard img{

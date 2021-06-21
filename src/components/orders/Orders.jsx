@@ -2,9 +2,10 @@ import './orders.css'
 import React, {useState} from 'react'
 import Header from '../Header'
 import ProductCard from './productCard'
+import menuBreakfast from '../../data/data.js'
 
 const Orders = () => {
-let [menu, setMenu] = useState(' ');
+let [menu, setMenu] = useState('Menú Desayuno');
 
   const breakfastMenu = ()=>{
      setMenu(menu ='Menú Desayuno')
@@ -21,9 +22,9 @@ let [menu, setMenu] = useState(' ');
           <button className ="enterButton" onClick={lunchMenu}>Almuerzo y Cena</button> 
           <h2>{menu}</h2>
           <div className='wrapCards'> 
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
+            {menuBreakfast.items.map(products => (
+            <ProductCard key={products.id} title={products.name} price={products.price} image={products.image}/>
+            ))} 
           </div>
         </div>
         <div className='orderRight'></div>
