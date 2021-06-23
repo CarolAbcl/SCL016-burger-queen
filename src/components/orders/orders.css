@@ -8,6 +8,17 @@
 }
 
 .enterButton{
+  color: #5A5655;
+  font-size: 140%;
+  padding: 10px;
+  border-radius: 10px;
+  border: solid 3px #FF5023;
+  background-color: #ffffff;
+  margin-right: 26px;
+  margin-top: 20px;
+}
+
+.enterButton-active{
   color: #ffffff;
   font-size: 140%;
   padding: 10px;
