@@ -3,7 +3,6 @@ import React, {useState} from 'react'
 import Header from '../Header'
 import ProductCard from './productCard'
 import menuData from '../../data/data.js'
-import Billing from './billing'
 
 const Orders = () => {
 let [menu, setMenu] = useState('Menú Desayuno');
@@ -24,10 +23,12 @@ let [total, setTotal] = useState(0);
   }
 
   const addButton =(id) =>{
-    let order = products.filter( (item) => item.id === id )
-    setBill([...bill, order[0].name, order[0].price])
-    setTotal(total = total + order[0].price);
-    console.log(order)
+    let order = products.filter( item => item.id === id); 
+     order[0].amount=1;
+     console.log(order); 
+     setBill(bill=[...bill, order])
+     setTotal(total = total + order[0].price);
+     console.log(bill);
   }
 
   return (
@@ -51,9 +52,31 @@ let [total, setTotal] = useState(0);
           </div>
         </div>
         <div className='orderRight'>
-            <p>{bill}</p>
-            <p>{total}</p>
-            <Billing />
+          <p className='featuredP'>Pedido N°:</p>
+          <label>Mesa:</label>
+          <select name='mesa' defaultValue='0'>
+            <option value='0'>Elige Mesa</option>
+            <option value='1'>Mesa 1</option>
+            <option value='2'>Mesa 2</option>
+            <option value='3'>Mesa 3</option>
+            <option value='4'>Mesa 4</option>
+            <option value='5'>Mesa 5</option>
+          </select>
+          <br></br>
+          <label>Nombre de Cliente</label>
+          <input type='text' placeholder='Ingrese nombre'></input>
+          <h3>Detalle</h3>
+          <ul>
+            {
+                bill.map((item, index) =>
+                  <li key={index+20} className='orderRow'>
+                    {item[0].amount}{item[0].name}{item[0].price}
+                    <button>X</button>
+                  </li>
+                )
+            }
+            <h2>Total: {total}</h2>
+          </ul>
         </div>
       </div>
     </>
