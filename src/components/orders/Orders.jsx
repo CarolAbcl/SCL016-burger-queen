@@ -43,12 +43,22 @@ let [productOption, setProductOption] = useState('')
     let found = bill.find(el => el.id === orderItem.id)
     if (found !== undefined){
       console.log('encontrado')
-      found.amount = found.amount + 1;
+      found.amount ++;
     } else {
       setBill(bill=[...bill, orderItem])
     }
      setTotal(total = total + order[0].price);
      console.log(bill);
+  }
+
+  const deleteItem =(id) =>{
+    let deleteId = bill.find(el => el.id === id)
+    deleteId.amount --;
+    setTotal(total = total - deleteId.price);
+    if (deleteId.amount === 0){
+      let newBill = bill.filter( item => item.id !== id)
+      setBill(bill = newBill);
+    }
   }
 
   return (
@@ -91,14 +101,15 @@ let [productOption, setProductOption] = useState('')
                 bill.map((item, index) =>
                   <li key={index+20} className='orderRow'>
                     {item.amount}{item.name}{item.price}
-                    <button>X</button>
+                    <button onClick={() =>deleteItem(item.id)}>X</button>
                   </li>
                 )
             }
             <h2>Total: {total}</h2>
           </ul>
             <ModalOptions 
-            options ={productOption} />
+            options ={productOption}
+           />
         </div>
       </div>
     </>

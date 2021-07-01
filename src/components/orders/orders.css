@@ -108,5 +108,19 @@ h2{
 
 .showOptions{
   border-radius: 10px;
-  border: solid 1px #B9B3B3 
+  border: solid 1px #B9B3B3; 
+  box-shadow: 2px 2px 2px #B9B3B3;
+  width: 470px;
+}
+
+.modalHeader{
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalForm{
+  margin: auto;
+  border-radius: 10px;
+  border: solid 1px #B9B3B3; 
+  width: 95%;
 }
