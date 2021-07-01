@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import Header from '../Header'
 import ProductCard from './productCard'
 import menuData from '../../data/data.js'
+import ModalOptions from '../orders/modalOptions.jsx'
 
 const Orders = () => {
 let [menu, setMenu] = useState('Menú Desayuno');
@@ -11,6 +12,8 @@ let menuLunch = menuData.filter((items) => items.category === 'lunch');
 let [products, setProducts] = useState(menuBreakfast)
 let [bill, setBill] = useState([]);
 let [total, setTotal] = useState(0);
+//let [itHasOptions, setItHasOptions] = useState(false)
+let [productOption, setProductOption] = useState('')
 
   const breakfastMenu = ()=>{
     setMenu(menu ='Menú Desayuno')
@@ -24,9 +27,26 @@ let [total, setTotal] = useState(0);
 
   const addButton =(id) =>{
     let order = products.filter( item => item.id === id); 
-     order[0].amount=1;
-     console.log(order); 
-     setBill(bill=[...bill, order])
+    console.log(order[0].options)
+    setProductOption(productOption = order[0].options)
+    if (order[0].options.length !== 0){
+      // setItHasOptions(itHasOptions = true)
+      alert('tiene opciones' + order[0].options);
+    }
+    const orderItem = {
+      id: order[0].id,
+      name: order[0].name,
+      price: order[0].price,
+      options: '',
+      amount: 1
+    }
+    let found = bill.find(el => el.id === orderItem.id)
+    if (found !== undefined){
+      console.log('encontrado')
+      found.amount = found.amount + 1;
+    } else {
+      setBill(bill=[...bill, orderItem])
+    }
      setTotal(total = total + order[0].price);
      console.log(bill);
   }
@@ -70,13 +90,15 @@ let [total, setTotal] = useState(0);
             {
                 bill.map((item, index) =>
                   <li key={index+20} className='orderRow'>
-                    {item[0].amount}{item[0].name}{item[0].price}
+                    {item.amount}{item.name}{item.price}
                     <button>X</button>
                   </li>
                 )
             }
             <h2>Total: {total}</h2>
           </ul>
+            <ModalOptions 
+            options ={productOption} />
         </div>
       </div>
     </>
