@@ -4,6 +4,7 @@ import Header from '../Header'
 import ProductCard from './productCard'
 import menuData from '../../data/data.js'
 import ModalOptions from '../orders/modalOptions.jsx'
+import { store } from '../../firebaseconf'
 
 const Orders = () => {
 let [menu, setMenu] = useState('Menú Desayuno');
@@ -61,6 +62,15 @@ let [productOption, setProductOption] = useState('')
     }
   }
 
+  const saveOrder = async () =>{
+    try{
+      const data = await store.collection('orders').add({bill})
+      console.log('orden añadida')
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
   return (
     <>
       <Header />
@@ -106,6 +116,7 @@ let [productOption, setProductOption] = useState('')
                 )
             }
             <h2>Total: {total}</h2>
+            <button className='enterButton' onClick={saveOrder}>Confirmar</button>
           </ul>
             <ModalOptions 
             options ={productOption}
