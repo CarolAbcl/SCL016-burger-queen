@@ -5,6 +5,7 @@ import ProductCard from './productCard'
 import menuData from '../../data/data.js'
 import ModalOptions from '../orders/modalOptions.jsx'
 import { store } from '../../firebaseconf'
+import ModalConfirmation from './modalConfirmation.jsx'
 
 const Orders = () => {
 let [menu, setMenu] = useState('Menú Desayuno');
@@ -14,7 +15,9 @@ let [products, setProducts] = useState(menuBreakfast)
 let [bill, setBill] = useState([]);
 let [total, setTotal] = useState(0);
 //let [itHasOptions, setItHasOptions] = useState(false)
-let [productOption, setProductOption] = useState('')
+let [productOption, setProductOption] = useState('');
+let [clientName, setClientName] = useState('');
+let [table, setTable] = useState('');
 
   const breakfastMenu = ()=>{
     setMenu(menu ='Menú Desayuno')
@@ -62,17 +65,48 @@ let [productOption, setProductOption] = useState('')
     }
   }
 
-  const saveOrder = async () =>{
-    try{
-      const data = await store.collection('orders').add({bill})
-      console.log('orden añadida')
-    }
-    catch(error){
-      console.log(error)
+  const saveOrder = (e) =>{
+    e.preventDefault();
+    if (clientName !== '' && table !== '0' && total !== 0 ){
+      const dateOrder = new Date();
+      const newOrder = {
+      table: table,
+      client: clientName,
+      order: bill,
+      total: total,
+      status: 'Pending',
+      date: dateOrder.toLocaleString()
+      }
+      store.collection('orders').add(newOrder)
+      .then(() =>{
+      console.log('orden añadida correctamente');
+      setClientName('');
+      setTable(0)
+      setBill([]);
+      setTotal(0);
+      setIsOpen(false);
+    })
+      .catch((error) =>{
+      console.log('Error al añadir' + error)
+      })
+    } else {
+      alert('Faltan datos del pedido')
     }
   }
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () =>{setIsOpen(true)}; 
+  const closeModal = () =>{setIsOpen(false)};
+
   return (
     <>
+      <ModalConfirmation 
+           isOpen={isOpen}
+           isClose={() => {closeModal()}}
+           save={saveOrder}
+           >
+             <p>Envio de Orden</p>
+             <h2>El pedido será enviado a Cocina</h2>
+        </ModalConfirmation>
       <Header />
       <div className='orderColumn'>
         <div className='orderLeft'>        
@@ -94,17 +128,17 @@ let [productOption, setProductOption] = useState('')
         <div className='orderRight'>
           <p className='featuredP'>Pedido N°:</p>
           <label>Mesa:</label>
-          <select name='mesa' defaultValue='0'>
+          <select name='mesa' defaultValue={table} onChange={(e) => setTable(e.target.value)}>
             <option value='0'>Elige Mesa</option>
-            <option value='1'>Mesa 1</option>
-            <option value='2'>Mesa 2</option>
-            <option value='3'>Mesa 3</option>
-            <option value='4'>Mesa 4</option>
-            <option value='5'>Mesa 5</option>
+            <option value='Mesa 1'>Mesa 1</option>
+            <option value='Mesa 2'>Mesa 2</option>
+            <option value='Mesa 3'>Mesa 3</option>
+            <option value='Mesa 4'>Mesa 4</option>
+            <option value='Mesa 5'>Mesa 5</option>
           </select>
           <br></br>
           <label>Nombre de Cliente</label>
-          <input type='text' placeholder='Ingrese nombre'></input>
+          <input value={clientName} type='text' placeholder='Ingrese un nombre' onChange={(e) => setClientName(e.target.value)}></input>
           <h3>Detalle</h3>
           <ul>
             {
@@ -116,12 +150,14 @@ let [productOption, setProductOption] = useState('')
                 )
             }
             <h2>Total: {total}</h2>
-            <button className='enterButton' onClick={saveOrder}>Confirmar</button>
+            <button className='enterButton' onClick={openModal}>Enviar a Cocina</button>
           </ul>
-            <ModalOptions 
+            {/* <ModalOptions 
             options ={productOption}
-           />
+           /> */}
+       
         </div>
+        
       </div>
     </>
   )

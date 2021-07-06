@@ -2,6 +2,7 @@ import React from 'react'
 import './orders.css'
 
 export default function ModalOptions({options}) {
+  console.log(options);
   const handleSubmit =() =>{
     alert('enviado')
   }
@@ -14,11 +15,11 @@ export default function ModalOptions({options}) {
       <form  onSubmit={handleSubmit}>
         <div className='modalForm'>
         <h2>Opciones</h2>
-        <input type='radio' value='piña'/> Piña
+        <input type='radio' value='piña'/>{options[0]}
         {/* <input type='checkbox'>opcion 1</input> */}
         {/* {options.forEach(option => {
         <input type='checkbox'>{option}</input>  
-        })}  */}
+        })} */}
         </div>
         <button type='submit'>Confirmar</button>
       </form>
